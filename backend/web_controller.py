@@ -7,6 +7,13 @@ from model_loader import ModelLoader
 from starlette.requests import Request
 from fastapi_utils.inferring_router import InferringRouter
 
+# import sumy
+import nltk
+from sumy.nlp.tokenizers import Tokenizer
+from sumy.parsers.plaintext import PlaintextParser
+from sumy.summarizers.lex_rank import LexRankSummarizer
+
+nltk.download('punkt')
 
 router = InferringRouter()
 
@@ -62,27 +69,14 @@ class WebController:
         inputs = x["url"]
         response = requests.get(inputs)
         soup = BeautifulSoup(response.text, 'html.parser')
-        # paragraphs = [p.text for p in soup.find_all('p')]
-        # text = '\n'.join(paragraphs)
         title = soup.title.string
-        print(title)
-        return title
-
-        # poetry add sumy numpy spacy en_core_web_sm
-        # import sumy
-        # from sumy.parsers.plaintext import PlaintextParser
-        # from sumy.nlp.tokenizers import Tokenizer
-        # from sumy.summarizers.lex_rank import LexRankSummarizer
-        # text = "text"
-        # parser = PlaintextParser.from_string(text, Tokenizer("english"))
-        # summarizer = LexRankSummarizer()
-        # summary = summarizer(parser.document, num_sentences=3)
-        # for sentence in summary:
-        #   print(sentence)
-
-        #     # Extract the text from all of the <p> tags
-        #     paragraphs = [p.text for p in soup.find_all('p')]
-        #     text = '\n'.join(paragraphs)
-        #     # Summarize the text
-        #     #summary = summarize(text, ratio=0.1)
-        #     return summary
+        paragraphs = [p.text for p in soup.find_all('p')]
+        text = '\n'.join(paragraphs)
+        parser = PlaintextParser.from_string(text, Tokenizer("english"))
+        summarizer = LexRankSummarizer()
+        summary = summarizer(parser.document, sentences_count=8)
+        sentences = []
+        for sentence in summary:
+            sentences.append(str(sentence))
+        summary_text = ' '.join(sentences)
+        return title, summary_text

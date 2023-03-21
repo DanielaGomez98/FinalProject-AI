@@ -34,8 +34,8 @@ with st.expander("Website URL", expanded=True):
     st.write("The website is: ", st.session_state['url'])
 
 tab1, tab2, tab3, tab4 = st.tabs(["Title", "Class", "Summary", "Preview"])
-title = call_api(st.session_state['url'])
-# title, summary = call_api(st.session_state['url'])
+# title = call_api(st.session_state['url'])
+title, summary = call_api(st.session_state['url'])
 
 with tab1:
     st.write(f'The website title is: {title}.')
@@ -44,7 +44,7 @@ with tab2:
     st.write(f"The website was classified as {st.session_state['results']}.")
 
 with tab3:
-    st.write("Summary: ")
+    st.write(f"Summary: {summary}")
 
 with tab4:
     st.write("Preview: ")

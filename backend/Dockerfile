@@ -7,7 +7,9 @@ RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
 FROM python:3.10
 RUN apt-get update \
     && apt-get -y install libpq-dev gcc uvicorn \
-    && pip install psycopg2
+    && pip install psycopg2 \
+    && pip install nltk \
+    && pip install sumy
 
 WORKDIR /app
 COPY --from=build-stage /tmp/requirements.txt requirements.txt
