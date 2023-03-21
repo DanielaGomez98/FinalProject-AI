@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "finalproject-ai"
+version = "0.1.0"
+description = ""
+authors = ["Daniela Gomez <danielagomezayalde@gmail.com>"]
+readme = "README.md"
+packages = [{include = "finalproject_ai"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+streamlit = "^1.20.0"
+joblib = "^1.2.0"
+fastapi = "^0.95.0"
+fastapi-utils = "^0.2.1"
+uvicorn = "^0.21.1"
+pillow = "^9.4.0"
+python-decouple = "^3.8"
+scikit-learn = "^1.2.2"
+beautifulsoup4 = "^4.11.2"
+matplotlib = "^3.7.1"
+seaborn = "^0.12.2"
+#psycopg2-binary = "^2.9.5"
+#psycopg2 = "^2.9.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

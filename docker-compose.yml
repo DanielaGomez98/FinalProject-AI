@@ -1,0 +1,59 @@
+version: "3.9"
+networks:
+  projectnet:
+    driver: bridge
+services:
+  frontend:
+    container_name: project-frontend
+    build: frontend
+    ports:
+      - 8501:8501
+    depends_on:
+      - backend
+    environment:
+      - API_ENDPOINT=http://backend:8000
+    volumes:
+      - ./frontend:/app
+    networks:
+      - projectnet
+  db:
+    container_name: project-postgres
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=projectdb
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - projectnet
+  backend:
+    container_name: project-backend
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/projectdb
+    ports:
+      - 8000:8000
+    build: backend
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - db
+    networks:
+      - projectnet
+  pgadmin:
+    container_name: project-pgadmin
+    image: dpage/pgadmin4
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    networks:
+      - projectnet
+    logging:
+      driver: none
