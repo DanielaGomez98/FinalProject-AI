@@ -10,12 +10,10 @@ from db.crud_label import label as crud_label
 from db.label_schema import Label
 from db.db import get_db
 from sqlalchemy.orm import Session
-import nltk
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.parsers.plaintext import PlaintextParser
 from sumy.summarizers.lex_rank import LexRankSummarizer
 
-nltk.download('punkt')
 
 router = InferringRouter()
 
@@ -56,27 +54,22 @@ class WebController:
     @router.post("/predict")
     async def predict(self, request: Request):
         request_body = await request.json()
-        for x in request_body:
-            print(x)
-        inputs = [
-            x["url"]
-        ]
-        predictions = self.model(inputs)
-        print(predictions)
-        lbl = Label(
-            url = x["url"],
-            label = "12"
-        )
+        website_url = request_body[0]["url"]
+        
+        predictions = self.model([website_url])
+        website_category = predictions[0]
+        lbl = Label(url = website_url,label = website_category)
         crud_label.create(self.db, entity=lbl)
         return {"label": predictions.tolist()}
+        
 
-    # @router.get("/predict")
-    # def get_labels(self):
-    #     """
-    #     Get all labels
-    #     :return:
-    #     """
-    #     return label.fetch_all(self.db)
+    @router.get("/labels")
+    def get_labels(self):
+        """
+        Get all labels
+        :return:
+        """
+        return crud_label.fetch_all(self.db)
 
     @router.post("/content")
     async def website_content(self, request: Request):

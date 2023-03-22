@@ -7,6 +7,7 @@ from model_loader import ModelLoader
 from web_controller import router as web_router
 from fastapi.middleware.cors import CORSMiddleware
 from users_controllers import router as users_router
+import nltk
 
 
 def initialize_env_vars():
@@ -25,7 +26,6 @@ def initialize_env_vars():
 initialize_env_vars()
 app = FastAPI()
 
-
 @app.on_event("startup")
 def startup_event():
     """
@@ -33,12 +33,13 @@ def startup_event():
     :return:
     """
     try:
+        nltk.download('punkt')
         create_db()
         app.state.model = ModelLoader(
             path="models/sklearn/web_classifier_model.sav", name="web_classifier", backend="sklearn"
         )
     except Exception as ex:
-        print(ex)
+        raise Exception("error running the app " + str(ex))
 
 
 @app.on_event("shutdown")
@@ -47,7 +48,11 @@ def shutdown_event():
     Drop the database
     :return:
     """
-    drop_db()
+    try:
+        pass
+        # drop_db()
+    except Exception as ex:
+        raise Exception("error stopping the app " + str(ex))
 
 
 app.add_middleware(
