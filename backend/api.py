@@ -26,6 +26,7 @@ def initialize_env_vars():
 initialize_env_vars()
 app = FastAPI()
 
+
 @app.on_event("startup")
 def startup_event():
     """

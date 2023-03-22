@@ -1,15 +1,16 @@
 import requests
+from db.db import get_db
 from fastapi import Depends
-from bs4 import BeautifulSoup
 from pydantic import BaseModel
+from db.label_schema import Label
 from fastapi_utils.cbv import cbv
+from sqlalchemy.orm import Session
 from model_loader import ModelLoader
 from starlette.requests import Request
-from fastapi_utils.inferring_router import InferringRouter
 from db.crud_label import label as crud_label
-from db.label_schema import Label
-from db.db import get_db
-from sqlalchemy.orm import Session
+from fastapi_utils.inferring_router import InferringRouter
+
+from bs4 import BeautifulSoup
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.parsers.plaintext import PlaintextParser
 from sumy.summarizers.lex_rank import LexRankSummarizer
@@ -58,10 +59,9 @@ class WebController:
         
         predictions = self.model([website_url])
         website_category = predictions[0]
-        lbl = Label(url = website_url,label = website_category)
+        lbl = Label(url=website_url, label=website_category)
         crud_label.create(self.db, entity=lbl)
         return {"label": predictions.tolist()}
-        
 
     @router.get("/labels")
     def get_labels(self):
