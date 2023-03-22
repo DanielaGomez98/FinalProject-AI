@@ -20,6 +20,7 @@ def get_website_content(website_url):
     results = response.json()
     return results
 
+
 def render_website_content(website_url):
     with st.expander("Website URL", expanded=True):
         st.write("The website is: ", website_url)
@@ -44,6 +45,7 @@ def render_website_content(website_url):
         components.iframe(st.session_state['url'], width=630, height=420, scrolling=True)
         st.caption(
             'If you cannot see the image, it is because the URL is incorrect or we do not have permission to access its contents.')
+
 
 st.set_page_config(page_title='LinkScribe', page_icon=':globe_with_meridians:', layout='wide')
 st.header('LinkScribe')
