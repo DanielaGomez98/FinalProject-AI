@@ -20,7 +20,7 @@ st.set_page_config(page_title='LinkScribe', page_icon=':globe_with_meridians:', 
 st.sidebar.title("Options")
 
 st.header('LinkScribe')
-st.subheader('List of websites')
+st.subheader('List of websites🧾')
 
 st.write("Here, you can find a list of the websites you classified above.")
 
@@ -40,4 +40,4 @@ if len(labels) > 0:
     df = df[["url", "label"]]
     st.table(df)
 else:
-    st.write("No label registered")
+    st.warning("No label registered ⚠️")

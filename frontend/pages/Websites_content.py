@@ -57,4 +57,5 @@ website_url = st.session_state['url']
 if website_url:
     render_website_content(website_url)
 else:
-    st.write("Website URL not provided")
+    st.image('web.jpg', use_column_width=True)
+    st.error(":blue[Website URL not provided.]", icon="🚨")
