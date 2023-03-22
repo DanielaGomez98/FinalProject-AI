@@ -10,7 +10,7 @@ if "API_ENDPOINT" not in os.environ:
 
 
 def fetch_labels():
-    url = os.environ["API_ENDPOINT"] + "/labels"
+    url = os.environ["API_ENDPOINT"] + "/predict"
     response = requests.request("GET", url)
     return response.json()
 

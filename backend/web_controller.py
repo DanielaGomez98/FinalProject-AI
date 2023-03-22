@@ -6,8 +6,10 @@ from fastapi_utils.cbv import cbv
 from model_loader import ModelLoader
 from starlette.requests import Request
 from fastapi_utils.inferring_router import InferringRouter
-
-# import sumy
+from db.crud_label import label as crud_label
+from db.label_schema import Label
+from db.db import get_db
+from sqlalchemy.orm import Session
 import nltk
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.parsers.plaintext import PlaintextParser
@@ -35,6 +37,7 @@ async def get_model(req: Request):
 class WebController:
     # injection dependecy pattern
     model: ModelLoader = Depends(get_model)
+    db: Session = Depends(get_db)
 
     @router.get("/")
     def welcome(self):
@@ -59,7 +62,21 @@ class WebController:
             x["url"]
         ]
         predictions = self.model(inputs)
+        print(predictions)
+        lbl = Label(
+            url = x["url"],
+            label = "12"
+        )
+        crud_label.create(self.db, entity=lbl)
         return {"label": predictions.tolist()}
+
+    # @router.get("/predict")
+    # def get_labels(self):
+    #     """
+    #     Get all labels
+    #     :return:
+    #     """
+    #     return label.fetch_all(self.db)
 
     @router.post("/content")
     async def website_content(self, request: Request):

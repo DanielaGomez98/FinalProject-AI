@@ -1,5 +1,5 @@
 import os
-from db import label_router
+from db.label_model import Label
 from fastapi import FastAPI
 from decouple import config
 from db.session import create_db, drop_db
@@ -27,18 +27,18 @@ app = FastAPI()
 
 
 @app.on_event("startup")
-def load_model():
-    app.state.model = ModelLoader(
-        path="models/sklearn/web_classifier_model.sav", name="web_classifier", backend="sklearn"
-    )
-
-
 def startup_event():
     """
     Drop the database
     :return:
     """
-    create_db()
+    try:
+        create_db()
+        app.state.model = ModelLoader(
+            path="models/sklearn/web_classifier_model.sav", name="web_classifier", backend="sklearn"
+        )
+    except Exception as ex:
+        print(ex)
 
 
 @app.on_event("shutdown")
@@ -62,13 +62,6 @@ app.include_router(
     web_router,
     prefix="/website",
     tags=["website"],
-    responses={404: {"description": "Not found"}},
-)
-
-app.include_router(
-    label_router.router,
-    prefix="/labels",
-    tags=["labels"],
     responses={404: {"description": "Not found"}},
 )
 

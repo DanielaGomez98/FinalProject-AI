@@ -4,6 +4,7 @@ from .orm_base import OrmBaseModel
 from fastapi.encoders import jsonable_encoder
 from typing import Any, Generic, List, Optional, Type, TypeVar, Tuple
 
+
 ModelType = TypeVar("ModelType", bound=OrmBaseModel)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
 UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
