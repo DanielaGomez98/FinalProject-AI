@@ -5,20 +5,22 @@ import pandas as pd
 import streamlit as st
 from decouple import config
 
+# set the api endpoint
 if "API_ENDPOINT" not in os.environ:
     os.environ["API_ENDPOINT"] = config("API_ENDPOINT")
 
 
+# fetch all labels from the database
 def fetch_labels():
     url = os.environ["API_ENDPOINT"] + "/website/labels"
     response = requests.request("GET", url)
     return response.json()
 
 
+# page configuration
 st.set_page_config(page_title='LinkScribe', page_icon=':globe_with_meridians:', layout='wide')
 
 st.sidebar.title("Options")
-
 st.header('LinkScribe')
 st.subheader('List of websites🧾')
 

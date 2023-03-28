@@ -30,7 +30,7 @@ app = FastAPI()
 @app.on_event("startup")
 def startup_event():
     """
-    Drop the database
+    Create the database and load the model
     :return:
     """
     try:
@@ -46,16 +46,16 @@ def startup_event():
 @app.on_event("shutdown")
 def shutdown_event():
     """
-    Drop the database
+    The database is not dropped
     :return:
     """
     try:
         pass
-        # drop_db()
     except Exception as ex:
         raise Exception("error stopping the app " + str(ex))
 
 
+# add CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -64,6 +64,7 @@ app.add_middleware(
     allow_credentials=True,
 )
 
+# include web router
 app.include_router(
     web_router,
     prefix="/website",
@@ -71,6 +72,7 @@ app.include_router(
     responses={404: {"description": "Not found"}},
 )
 
+# include users router
 app.include_router(
     users_router,
     prefix="/users",

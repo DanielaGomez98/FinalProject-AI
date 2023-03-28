@@ -8,9 +8,11 @@ from sqlalchemy import create_engine, event
 
 SQLALCHEMY_DATABASE_URL = config("DATABASE_URL")
 print(f"SQLALCHEMY_DATABASE_URL: {SQLALCHEMY_DATABASE_URL}")
+# with this function, SQLAlchemy knows what type of database I am going to connect to.
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
 
+# session class that allows to create a connection with the database and configure the ORM.
 def on_connect(dbapi_con, con_record):
     print(f"connection established to database {dbapi_con}")
 

@@ -10,11 +10,13 @@ class ModelLoader:
         else:
             raise NotImplementedError
 
+    # function to load the model from specified path, using pickle
     def __load_model_from_sklearn(self, model_path):
         import pickle
         with open(model_path, "rb") as f:
             return pickle.load(f)
 
+    # function to make the prediction with the model
     def predict(self, data):
         return self.model.predict(data)
 

@@ -8,6 +8,7 @@ Base class for sqlalchemy ORM classes.
 """
 
 
+# this class allows to create a generic class that represents a model (database table).
 @as_declarative(class_registry=class_registry)
 class OrmBaseModel:
     id: typing.Any

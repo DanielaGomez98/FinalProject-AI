@@ -5,7 +5,7 @@ from sqlalchemy import Column, Integer, String
 
 
 """
-ORM class to interact with the image_records table in the database
+ORM class to interact with the Label table in the database
 """
 
 

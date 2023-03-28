@@ -11,6 +11,7 @@ if "API_ENDPOINT" not in os.environ:
     os.environ["API_ENDPOINT"] = config("API_ENDPOINT")
 
 
+# get website content from api endpoint
 def get_website_content(website_url):
     # call the api
     payload = json.dumps([{"url": website_url}])
@@ -21,6 +22,7 @@ def get_website_content(website_url):
     return results
 
 
+# function to display all the website content
 def render_website_content(website_url):
     with st.expander("Website URL", expanded=True):
         st.write("The website is: ", website_url)
@@ -47,6 +49,7 @@ def render_website_content(website_url):
             'If you cannot see the image, it is because the URL is incorrect or we do not have permission to access its contents.')
 
 
+# page configuration
 st.set_page_config(page_title='LinkScribe', page_icon=':globe_with_meridians:', layout='wide')
 st.header('LinkScribe')
 st.subheader('Website Content 💻')
@@ -54,6 +57,8 @@ st.subheader('Website Content 💻')
 st.write("Here, you can find the summary of the content of the website you classified above.")
 
 website_url = st.session_state['url']
+
+# verifies whether the URL was provided or not
 if website_url:
     render_website_content(website_url)
 else:

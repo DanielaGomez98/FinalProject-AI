@@ -8,8 +8,10 @@ from app.services import UrlLabelService
 if "API_ENDPOINT" not in os.environ:
     os.environ["API_ENDPOINT"] = config("API_ENDPOINT")
 
+# call the api
 labels_service = UrlLabelService()
 
+# page configuration
 st.set_page_config(page_title='LinkScribe',
                    page_icon=':globe_with_meridians:',
                    layout='wide')
@@ -24,14 +26,17 @@ st.write('LinkScribe is a web application that uses Machine Learning to allow yo
          'about the page content and classifying them according to the information obtained.')
 
 st.write(':blue[Enter a website URL to classify its content:]')
+
+# URL to be classified
 url = st.text_input('URL', '')
 
-
+# button to classify
 classify = st.button('Classify')
 
 if classify:
     with st.spinner('Wait for it...'):
         time.sleep(2)
+    # the category to which the URL belongs is returned
     results = labels_service.add_url(url)
     st.success(f'Done!✅ This website URL {url} is classified as {results["label"][0]}.')
     st.balloons()
