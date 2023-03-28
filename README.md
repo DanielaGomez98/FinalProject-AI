@@ -2,6 +2,9 @@
 
 This project aims to classify different web links into different categories using machine learning. The project is built by combining frontend, backend, and machine learning components.
 
+![diagrama_25](https://user-images.githubusercontent.com/91514084/228389670-c92ab7b3-5f5d-4b97-95c4-340f5c856da1.png)
+
+
 ##  Installation and Execution
 
 To run this project, follow the steps below:
