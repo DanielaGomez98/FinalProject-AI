@@ -35,7 +35,7 @@ classify = st.button('Classify')
 
 if classify:
     with st.spinner('Wait for it...'):
-        time.sleep(2)
+        time.sleep(5)
     # the category to which the URL belongs is returned
     results = labels_service.add_url(url)
     st.success(f'Done!✅ This website URL {url} is classified as {results["label"][0]}.')
