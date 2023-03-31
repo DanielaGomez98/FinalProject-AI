@@ -28,6 +28,11 @@ docker-compose up
 ```
 With these steps, you should be able to run the project on your local machine.
 
+** The Machine Learning model can be found at the following path: 
+https://uao-my.sharepoint.com/:f:/g/personal/daniela_gomez_ayalde_uao_edu_co/EtNWEM9hVO5PrxUB_rPHB3MBV00lW8nbdqO9CHpi5p2EDA?e=URtUHu. 
+
+It must be downloaded and inserted in the folder "*backend/models/sklearn*".
+
 ## Contributing
 
 If you would like to contribute to this project, follow the steps below:
